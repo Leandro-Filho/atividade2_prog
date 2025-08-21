@@ -8,19 +8,26 @@ def calculate_demographic_data(print_data=True):
 
     average_age_men = df[df['sex'] == "Male"]["age"].mean()
 
-    percentage_bachelors = num_bachelors = df[df['education'] == 'Bachelors'].shape[0]
+    num_bachelors = df[df['education'] == 'Bachelors'].shape[0]
     total_people = df.shape[0]
     percentage_bachelors = (num_bachelors / total_people) * (100)
 
-    higher_education = df[df['education'] == 'Barhelors', '']
-    lower_education = None
+        
+    education_advance = df['education'].isin(['Bachelors', 'Masters', 'Doctorate'])
+    salary_advance = df['salary'] == ' >50K'
+    total_higher_ed = education_advance.sum()
+    higher_ed_rich = (education_advance & salary_advance).sum()
+    higher_education = (higher_ed_rich / total_higher_ed) * 100
+
+
+    lower_education = 
 
     higher_education_rich = None
     lower_education_rich = None
 
     min_work_hours = None
 
-    num_min_workers = None
+    num_min_workers = None  
 
     rich_percentage = None
 

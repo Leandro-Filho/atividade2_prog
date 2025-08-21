@@ -8,9 +8,11 @@ def calculate_demographic_data(print_data=True):
 
     average_age_men = df[df['sex'] == "Male"]["age"].mean()
 
-    percentage_bachelors = None
+    percentage_bachelors = num_bachelors = df[df['education'] == 'Bachelors'].shape[0]
+    total_people = df.shape[0]
+    percentage_bachelors = (num_bachelors / total_people) * (100)
 
-    higher_education = None
+    higher_education = df[df['education'] == 'Barhelors', '']
     lower_education = None
 
     higher_education_rich = None

@@ -8,34 +8,43 @@ def calculate_demographic_data(print_data=True):
 
     average_age_men = df[df['sex'] == "Male"]["age"].mean()
 
-    num_bachelors = df[df['education'] == 'Bachelors'].shape[0]
-    total_people = df.shape[0]
-    percentage_bachelors = (num_bachelors / total_people) * (100)
+    numero_bachelors = df[df['education'] == 'Bachelors'].shape[0]
+    total_pessoas = df.shape[0]
+    percentage_bachelors = (numero_bachelors / total_pessoas) * (100)
 
         
-    education_advance = df['education'].isin(['Bachelors', 'Masters', 'Doctorate'])
-    salary_advance = df['salary'] == ' >50K'
-    total_higher_ed = education_advance.sum()
-    higher_ed_rich = (education_advance & salary_advance).sum()
-    higher_education = (higher_ed_rich / total_higher_ed) * 100
+    educacao_avancada = df['education'].isin(['Bachelors', 'Masters', 'Doctorate'])
+    salario_avancado = df['salary'] == '>50K'
+    educacao_avancada_somada = educacao_avancada.sum()
+    total_pessoas_ricacas = (educacao_avancada & salario_avancado).sum()
+    higher_education = (total_pessoas_ricacas / educacao_avancada_somada) * 100
+
+    sem_educacao = ~df['education'].isin(['Bachelors', 'Masters', 'Doctorate'])
+    total_sem_educacao = sem_educacao.sum()
+    total_ricos_sem_educacao= (sem_educacao & salario_avancado).sum()
+    lower_education = (total_ricos_sem_educacao/ total_sem_educacao)*100
+
+    higher_education_rich = higher_education
+    lower_education_rich = lower_education
+
+    min_work_hours = df['hours-per-week'].min()
+
+    num_min_workers = (df['hours-per-week'] == 1).sum()
+    num_rich_min_workers = ((df['hours-per-week'] == 1) & (df['salary'] == '>50K')).sum()
+    rich_percentage = (num_rich_min_workers / num_min_workers) * 100
 
 
-    lower_education = 
+    salarios_paises = df[df['salary'] == '>50K'].groupby('native-country').size()
+    highest_earning_country = salarios_paises.idxmax()
+    unitad_states = salarios_paises.max()
+    total_ricos = salarios_paises.sum()
+    highest_earning_country_percentage = (unitad_states / total_ricos) * 100
 
-    higher_education_rich = None
-    lower_education_rich = None
-
-    min_work_hours = None
-
-    num_min_workers = None  
-
-    rich_percentage = None
-
-    highest_earning_country = None
-    highest_earning_country_percentage = None
-
-    top_IN_occupation = None
-
+    india = df[df['native-country'] == 'India']
+    filtragem_india = india[['salary','occupation']]
+    india_ganham_50K = filtragem_india[filtragem_india['salary'] == '>50K']
+    india_occupation_count = india_ganham_50K['occupation'].value_counts()
+    top_IN_occupation = india_occupation_count.idxmax()
 
     if print_data:
         print("Number of each race:\n", race_count) 
